@@ -2,6 +2,7 @@ com/example/lesson_3_2/MessengerController.class
 com/example/lesson_3_2/client/ChatClient.class
 com/example/lesson_3_2/MessengerApplication.class
 com/example/lesson_3_2/practice/DemoApp.class
+com/example/lesson_3_2/practice/JdbcApp.class
 com/example/lesson_3_2/server/ServerRunner.class
 com/example/lesson_3_2/Command.class
 com/example/lesson_3_2/server/ChatServer.class
