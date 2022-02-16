@@ -24,4 +24,12 @@ public class User {
         return nick;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", nick='" + nick + '\'' +
+                '}';
+    }
 }

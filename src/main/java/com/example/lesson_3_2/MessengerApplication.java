@@ -1,7 +1,5 @@
 package com.example.lesson_3_2;
 
-import com.example.lesson_3_2.db.DbConnect;
-import com.example.lesson_3_2.db.DbService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

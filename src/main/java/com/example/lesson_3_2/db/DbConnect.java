@@ -22,9 +22,9 @@ public class DbConnect {
     public static DbConnect connect() {
         if (instance == null) {
             instance = new DbConnect();
-        }
 
-        System.out.println("Connection with database was created!");
+            System.out.println("Connection with database was created!");
+        }
 
         return instance;
     }
