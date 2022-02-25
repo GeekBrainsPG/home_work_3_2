@@ -1,6 +1,7 @@
 package com.example.lesson_3_2;
 
 import com.example.lesson_3_2.client.ChatClient;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,8 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MessengerController {
 
@@ -38,6 +40,7 @@ public class MessengerController {
     public Button submitButton;
 
     private final ChatClient client;
+    private String historyFileName;
 
     public MessengerController() {
         client = new ChatClient(this);
@@ -54,6 +57,14 @@ public class MessengerController {
     }
 
     public void onExitClick(ActionEvent actionEvent) {
+        if (historyFileName != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(historyFileName))) {
+                bw.write(messengerTextArea.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.exitChat();
     }
 
@@ -62,6 +73,7 @@ public class MessengerController {
     }
 
     public void btnAuthClick(ActionEvent actionEvent) {
+        historyFileName = loginField.getText() + ".txt";
         client.sendMessage("/auth " + loginField.getText() + " " + passwordField.getText());
     }
 
