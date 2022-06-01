@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.example.lesson_3_2.Command.*;
 
@@ -30,14 +32,14 @@ public class ClientHandler {
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
 
-            new Thread(() -> {
+            Executors.newCachedThreadPool().execute(() -> {
                 try {
                     authenticate();
                     readMessage();
                 } finally {
                     closeConnection();
                 }
-            }).start();
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -76,19 +78,17 @@ public class ClientHandler {
                 final String message = in.readUTF();
 
                 if (Command.isCommand(message)) {
-                    if (message.startsWith(Command.getCommandPrefix())) {
-                        if (Command.getCommandByText(message) == END) {
-                            break;
-                        }
-                        if (Command.getCommandByText(message) == PRIVATE_MESSAGE) {
-                            final String[] split = message.split(" ");
-                            final String nickTo = split[1];
-                            final int amountOfSymbolsToSubstring = PRIVATE_MESSAGE.getCommand().length() + 2 + nickTo.length();
-                            chatServer.sendMessageToClient(this, nick, message.substring(amountOfSymbolsToSubstring));
-                        }
-
-                        continue;
+                    if (Command.getCommandByText(message) == END) {
+                        break;
                     }
+                    if (Command.getCommandByText(message) == PRIVATE_MESSAGE) {
+                        final String[] split = message.split(" ");
+                        final String nickTo = split[1];
+                        final int amountOfSymbolsToSubstring = PRIVATE_MESSAGE.getCommand().length() + 2 + nickTo.length();
+                        chatServer.sendMessageToClient(this, nick, message.substring(amountOfSymbolsToSubstring));
+                    }
+
+                    continue;
                 }
 
                 chatServer.broadcast(nick + ": " + message);

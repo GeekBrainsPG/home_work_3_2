@@ -27,7 +27,9 @@ public enum Command {
     public static Command getCommandByText(String text) {
         return Arrays
                 .stream(values())
-                .filter(cmd -> text.startsWith(cmd.getCommand()))
+                .filter(cmd -> {
+                    return text.startsWith(cmd.getCommand());
+                })
                 .findAny()
                 .orElseThrow(() -> new RuntimeException("Such command doesnt exists " + text));
     }
