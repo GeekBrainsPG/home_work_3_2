@@ -1,3 +1,4 @@
 .idea
 out
-/src/main/java/com/example/lesson_3_2/practice/
+target
+/target
